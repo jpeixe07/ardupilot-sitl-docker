@@ -23,17 +23,24 @@ Docker Hub links:
 
 ![Screenshot of macOS running XQuartz showing 3 windows: ArduPlane SITL, MavProxy Map and MavProxy console](images/xquartz.png)
 
-## Quick usage
+## Quick usage 
 
-*The quick approach skips setting up UIs and won't use docker-compose, but starts the SITL in Ubuntu (3.9GB) in **one** command, as long as Docker Desktop is installed.*
 ```bash
-docker run -it orthuk/ardupilot-sitl ./Tools/autotest/sim_vehicle.py -v ArduPlane --frame quadplane --map --console
+git clone https://github.com/jpeixe07/ardupilot-sitl-docker.git
+git checkout feat/ubuntu22
+docker compose up --build -d local_ubuntu
+docker exec -it sitl bash
+./Tools/autotest/sim_vehicle.py -v ArduCopter --no-mavproxy
+
+```
+## Install MAVProxy outside docker
+```bash
+chmod +x scripts/install_mavproxy.sh
+./install_mavproxy.sh
+#Check if it works by running:
+mavproxy.py
 ```
 
-For the same command, but to use Debian (3.65GB), run:
-```bash
-docker run -it orthuk/ardupilot-sitl-debian ./Tools/autotest/sim_vehicle.py -v ArduPlane --frame quadplane --map --console
-```
 
 ## Setup
 
