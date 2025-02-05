@@ -7,10 +7,13 @@ services:
         - ARDUPILOT_VERSION=${ARDUPILOT_VERSION}
     entrypoint: "tail -f /dev/null"
     environment:
-      - DISPLAY=host.docker.internal:0
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
     # Keeping the old name, instead of using orthuk/ardupilot-sitl-debian, for now
     image: orthuk/ardupilot-sitl
     container_name: sitl
+    network_mode: "host"
   local_debian:
     build:
       context: .
@@ -22,18 +25,23 @@ services:
       - DISPLAY=host.docker.internal:0
     image: orthuk/ardupilot-sitl-debian
     container_name: sitl
+    network_mode: "host"
   remote_ubuntu:
     image: orthuk/ardupilot-sitl
     entrypoint: "tail -f /dev/null"
     environment:
-      - DISPLAY=host.docker.internal:0
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
     container_name: sitl
+    network_mode: "host"
   remote_debian:
     image: orthuk/ardupilot-sitl-debian
     entrypoint: "tail -f /dev/null"
     environment:
       - DISPLAY=host.docker.internal:0
     container_name: sitl
+    network_mode: "host"
     # # Just if we use TCP
     # ports:
     #   - "5760:5760"
